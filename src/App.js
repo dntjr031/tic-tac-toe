@@ -7,14 +7,29 @@ import Links from './components/Links';
 import NavLinks from './components/NavLinks';
 import Login from './components/Login';
 import './App.scss';
-import Example9 from './components/Example9';
-import Example10 from './components/Example10';
-import Example11 from './components/Example11';
-import Button from './components/Button';
+import { useRef, useState } from 'react';
+import Modal from './components/Modal';
+import MyInput from './components/MyInput';
 
 const isLogin = false;
 
 function App() {
+  const [visible, setVisible] = useState(false);
+
+  const open = () => {
+    setVisible(true);
+  };
+
+  const close = () => {
+    setVisible(false);
+  };
+
+  const click = () => {
+    console.log(myInputRef.current.value);
+  };
+
+  const myInputRef = useRef();
+
   return (
     <BrowserRouter>
       <Links />
@@ -28,7 +43,25 @@ function App() {
         <Route component={NotFound} />
       </Switch>
       <hr />
-      <Button></Button>
+      <button onClick={open}>open</button>
+      {visible && (
+        <Modal>
+          <div
+            onClick={close}
+            style={{
+              width: '100vw',
+              height: '100vh',
+              background: 'rgba(0, 0, 0, 0.5)',
+            }}>
+            Hello
+          </div>
+        </Modal>
+      )}
+      <hr />
+      <div>
+        <MyInput ref={myInputRef} />
+        <button onClick={click}>click</button>
+      </div>
     </BrowserRouter>
   );
 }
